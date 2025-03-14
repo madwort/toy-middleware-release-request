@@ -2,10 +2,8 @@ from django.template.response import TemplateResponse
 
 from toy_middleware_release_request.business_logic import ReleaseRequest
 
-def request_view(request, release_request_id: str):
-    assert isinstance(release_request_id, str), "bad type"
-    user = "tom"
-    release_request = ReleaseRequest.load(user, release_request_id)
+def request_view(request, release_request: ReleaseRequest):
+    assert isinstance(release_request, ReleaseRequest), f"bad type {release_request.__class__}"
 
     template = "request.html"
     context = { "release_request": release_request }
