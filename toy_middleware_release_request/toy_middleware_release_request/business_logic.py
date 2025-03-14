@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from django.http import Http404
 
+from pathlib import Path, PurePosixPath
+
 @dataclass
 class ReleaseRequest:
     id: str
@@ -17,3 +19,22 @@ class ReleaseRequest:
 
     def __str__():
         return f"{id}"
+
+
+UrlPath = PurePosixPath
+
+@dataclass
+class RequestUrlPath:
+    group: str
+    urlpath: UrlPath
+
+    @classmethod
+    def load(cls, request_urlpath):
+        path = PurePosixPath(request_urlpath)
+        group = path.parts[0]
+        urlpath = UrlPath(*path.parts[1:])
+        return cls(group=group, urlpath=urlpath)
+
+
+    def __str__(self):
+        return f"group: {self.group} path: {self.urlpath}"
