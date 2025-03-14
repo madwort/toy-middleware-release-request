@@ -19,7 +19,7 @@ from django.urls import path
 import toy_middleware_release_request.views.request
 
 urlpatterns = [
-    path('request/view/<str:release_request_id>', toy_middleware_release_request.views.request_view),
+    path('request/view/<str:release_request>', toy_middleware_release_request.views.request_view),
     path('request/edit/<str:release_request_id>', toy_middleware_release_request.views.request_edit),
     path('request/remove/<str:release_request_id>', toy_middleware_release_request.views.request_remove),
     path('admin/', admin.site.urls),
