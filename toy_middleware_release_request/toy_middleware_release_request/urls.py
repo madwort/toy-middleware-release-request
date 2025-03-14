@@ -15,13 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, register_converter
+
 import toy_middleware_release_request.views.request
+from toy_middleware_release_request.converters import UrlPathConverter, RequestUrlPathConverter
+
+register_converter(UrlPathConverter, "urlpath")
+register_converter(RequestUrlPathConverter, "request_urlpath")
 
 urlpatterns = [
     path('request/view/<str:release_request_id>', toy_middleware_release_request.views.request_view),
-    path('request/add/<str:release_request_id>/<str:group>/<path:urlpath>', toy_middleware_release_request.views.request_add),
-    path('request/edit/<str:release_request_id>/<path:urlpath>', toy_middleware_release_request.views.request_edit),
+    path('request/add/<str:release_request_id>/<str:group>/<urlpath:urlpath>', toy_middleware_release_request.views.request_add),
+    path('request/edit/<str:release_request_id>/<request_urlpath:request_urlpath>', toy_middleware_release_request.views.request_edit),
     path('request/remove/<str:release_request_id>', toy_middleware_release_request.views.request_remove),
     path('admin/', admin.site.urls),
 ]

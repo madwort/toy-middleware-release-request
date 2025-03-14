@@ -22,3 +22,19 @@ class ReleaseRequest:
 
 
 UrlPath = PurePosixPath
+
+@dataclass
+class RequestUrlPath:
+    group: str
+    urlpath: UrlPath
+
+    @classmethod
+    def load(cls, request_urlpath):
+        path = PurePosixPath(request_urlpath)
+        group = path.parts[0]
+        urlpath = UrlPath(*path.parts[1:])
+        return cls(group=group, urlpath=urlpath)
+
+
+    def __str__(self):
+        return f"group: {self.group} path: {self.urlpath}"
